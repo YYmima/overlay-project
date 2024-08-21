@@ -1,11 +1,4 @@
 (function() {
-    // pokepoolchange.js 파일을 동적으로 로드
-    var s = document.createElement("script");
-    s.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
-    s.type = "text/javascript";
-    document.head.appendChild(s);
-
-    // 오버레이 스타일을 정의
     var overlayStyle = `
         #myOverlay {
             position: fixed;
@@ -37,19 +30,13 @@
             justify-content: center;
             align-items: center;
         }
-        .setPokemonBtn, .closeBtn, .resetPokemonBtn {
-            background-color: green;
+        .closeBtn {
+            background-color: red;
             color: white;
             padding: 5px 10px;
             border: none;
             cursor: pointer;
             margin-top: 10px;
-        }
-        .closeBtn {
-            background-color: red;
-        }
-        .resetPokemonBtn {
-            background-color: blue;
         }
         #expandBtn {
             width: 100%;
@@ -59,33 +46,38 @@
             text-align: center;
             cursor: pointer;
         }
+        .navBtn {
+            background-color: green;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     `;
 
-    // 스타일을 페이지에 추가
     var styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.appendChild(document.createTextNode(overlayStyle));
     document.head.appendChild(styleElement);
 
-    // 오버레이를 정의
     var overlay = document.createElement('div');
     overlay.id = 'myOverlay';
     overlay.innerHTML = `
         <div id="myOverlayContent">
             <h2>Overlay Control</h2>
             <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" value="4" style="width: 50px;">
-            <button class="setPokemonBtn" onclick="setPokemon()">Set Pokemon</button>
-            <button class="resetPokemonBtn" onclick="resetPokemon()">Reset Pokemon</button>
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
+            <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
+            <button class="navBtn" onclick="goToPage2()">Go to Page 2</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
         </div>
         <div id="expandBtn">Open</div>
     `;
 
-    // 오버레이를 페이지에 추가
     document.body.appendChild(overlay);
 
-    // 오버레이를 드래그할 수 있도록 설정
     overlay.onmousedown = function(event) {
         let shiftX = event.clientX - overlay.getBoundingClientRect().left;
         let shiftY = event.clientY - overlay.getBoundingClientRect().top;
@@ -111,12 +103,10 @@
         return false;
     };
 
-    // closeOverlay 함수 정의
     window.closeOverlay = function() {
         document.getElementById('myOverlay').remove();
     };
 
-    // Expand 버튼 클릭 시 오버레이 확장
     document.getElementById('expandBtn').onclick = function() {
         var overlay = document.getElementById('myOverlay');
         var overlayContent = document.getElementById('myOverlayContent');
@@ -124,10 +114,36 @@
             overlay.style.width = '50%';
             overlay.style.height = '50%';
             overlayContent.style.display = 'flex';
+            this.textContent = 'Close'; // 닫힐 때 'Close'로 텍스트 변경
         } else {
             overlay.style.width = '150px';
             overlay.style.height = '40px';
             overlayContent.style.display = 'none';
+            this.textContent = 'Open'; // 열릴 때 'Open'으로 텍스트 변경
         }
     };
+
+    window.goToPage2 = function() {
+        document.getElementById('myOverlayContent').innerHTML = `
+            <h2>Page 2</h2>
+            <button class="navBtn" style="position: absolute; left: 10px;" onclick="goToPage1()">Go to Page 1</button>
+            <button class="closeBtn" onclick="closeOverlay()">Close</button>
+        `;
+    };
+
+    window.goToPage1 = function() {
+        document.getElementById('myOverlayContent').innerHTML = `
+            <h2>Overlay Control</h2>
+            <p>Set Pokemon Value:</p>
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
+            <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
+            <button class="navBtn" style="position: absolute; right: 10px;" onclick="goToPage2()">Go to Page 2</button>
+            <button class="closeBtn" onclick="closeOverlay()">Close</button>
+        `;
+    };
+
+    var script = document.createElement("script");
+    script.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
+    document.head.appendChild(script);
 })();

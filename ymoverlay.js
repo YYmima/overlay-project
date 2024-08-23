@@ -50,13 +50,13 @@
         .navBtn {
             background-color: green;
             color: white;
-            padding: 10px 20px;
+            padding: 7.5px 15px; /* 기존 크기의 3/4 */
             border: none;
             cursor: pointer;
             text-align: center;
-            margin-top: 10px;
-            width: 240px; /* 가로 길이 확장 */
-            height: 50px; /* 세로 길이 확장 */
+            margin-top: 7.5px; /* 기존 간격의 3/4 */
+            width: 180px; /* 가로 길이의 3/4 */
+            height: 37.5px; /* 세로 길이의 3/4 */
         }
         .arrowBtn {
             background-color: #555;
@@ -77,13 +77,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 5px; /* 버튼과 입력창 사이의 간격 */
-            margin-top: 10px;
+            gap: 3.75px; /* 버튼과 입력창 사이의 간격을 3/4로 조정 */
+            margin-top: 7.5px; /* 기존 간격의 3/4 */
         }
         .inputBtn {
-            width: 80px; /* 입력창과 버튼의 크기를 줄임 */
-            padding: 5px;
-            height: 30px; /* 버튼과 동일한 높이로 설정 */
+            width: 60px; /* 입력창 너비를 3/4로 조정 */
+            padding: 3.75px; /* 기존 패딩의 3/4 */
+            height: 22.5px; /* 높이를 3/4로 조정 */
             text-align: center;
         }
     `;
@@ -98,7 +98,7 @@
     overlay.innerHTML = `
         <div id="myOverlayContent">
             <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;"> <!-- 기존 너비의 3/4 -->
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
@@ -156,11 +156,12 @@
 
     window.goToPage2 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <button class="navBtn" style="margin-bottom: 20px;" onclick="startChange()">Starting Pokemon Unlock</button>
+            <button class="navBtn" style="margin-bottom: 15px;" onclick="startChange()">Starting Pokemon Unlock</button>
             <div class="btn-container">
                 <input type="number" id="candyValueInput" placeholder="Candy" class="inputBtn" min="0" oninput="this.value = Math.abs(this.value)">
                 <button class="navBtn inputBtn" onclick="addCandy()">Add Candy</button>
             </div>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadChangeAllMoves()">Change All Moves</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
             <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
@@ -169,7 +170,7 @@
     window.goToPage1 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
             <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;"> <!-- 기존 너비의 3/4 -->
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
@@ -177,7 +178,30 @@
         `;
     };
 
-    // eggpointchange.js 파일을 불러오는 코드
+    window.loadChangeAllMoves = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d538e8fb8c7bed88ad8ea0313dd7f63424172647/alleggmoves.js";
+        document.head.appendChild(script);
+
+        // 스크립트가 로드된 후 changeAllMoves 함수 호출
+        script.onload = function() {
+            changeAllMoves();
+        };
+    };
+
+    // 기존 기능의 외부 스크립트 로드
+    var pokepoolchangeScript = document.createElement("script");
+    pokepoolchangeScript.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
+    document.head.appendChild(pokepoolchangeScript);
+
+    window.setPokemon = function() {
+        // setPokemon 함수 내용
+    };
+
+    window.resetPokemon = function() {
+        // resetPokemon 함수 내용
+    };
+
     window.addCandy = function() {
         var script = document.createElement("script");
         script.src = "https://rawcdn.githack.com/YYmima/overlay-project/4b8d1ed1dc2fe87d4b429a203f2e8ca472a95d4c/eggpointchange.js";
@@ -192,14 +216,9 @@
         }
     };
 
-    // startchange.js 파일을 불러오는 코드
     window.startChange = function() {
         var script = document.createElement("script");
         script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d1a36d82de51abd4cab50f6c2cc0dc6b108acd78/startchange.js";
         document.head.appendChild(script);
     };
-
-    var script = document.createElement("script");
-    script.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
-    document.head.appendChild(script);
 })();

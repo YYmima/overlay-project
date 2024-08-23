@@ -29,6 +29,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
         .closeBtn {
             background-color: red;
@@ -53,6 +54,22 @@
             border: none;
             cursor: pointer;
             margin-top: 10px;
+            text-align: center;
+        }
+        .arrowBtn {
+            background-color: #555;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+        }
+        .leftArrow {
+            left: 10px;
+        }
+        .rightArrow {
+            right: 10px;
         }
     `;
 
@@ -65,13 +82,12 @@
     overlay.id = 'myOverlay';
     overlay.innerHTML = `
         <div id="myOverlayContent">
-            <h2>Overlay Control</h2>
             <p>Set Pokemon Value:</p>
             <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
-            <button class="navBtn" onclick="goToPage2()">Go to Page 2</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
+            <button class="arrowBtn rightArrow" onclick="goToPage2()">➡️</button>
         </div>
         <div id="expandBtn">Open</div>
     `;
@@ -125,22 +141,28 @@
 
     window.goToPage2 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <h2>Page 2</h2>
-            <button class="navBtn" style="position: absolute; left: 10px;" onclick="goToPage1()">Go to Page 1</button>
+            <button class="navBtn" style="position: relative; margin-top: 50px;" onclick="startChange()">Start Change</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
+            <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
     };
 
     window.goToPage1 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <h2>Overlay Control</h2>
             <p>Set Pokemon Value:</p>
             <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
-            <button class="navBtn" style="position: absolute; right: 10px;" onclick="goToPage2()">Go to Page 2</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
+            <button class="arrowBtn rightArrow" onclick="goToPage2()">➡️</button>
         `;
+    };
+
+    // startchange.js 파일을 불러오는 코드
+    window.startChange = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d1a36d82de51abd4cab50f6c2cc0dc6b108acd78/startchange.js";
+        document.head.appendChild(script);
     };
 
     var script = document.createElement("script");

@@ -50,11 +50,13 @@
         .navBtn {
             background-color: green;
             color: white;
-            padding: 5px 10px;
+            padding: 10px 20px;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
             text-align: center;
+            margin-top: 10px;
+            width: 240px; /* 가로 길이 확장 */
+            height: 50px; /* 세로 길이 확장 */
         }
         .arrowBtn {
             background-color: #555;
@@ -70,6 +72,19 @@
         }
         .rightArrow {
             right: 10px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px; /* 버튼과 입력창 사이의 간격 */
+            margin-top: 10px;
+        }
+        .inputBtn {
+            width: 80px; /* 입력창과 버튼의 크기를 줄임 */
+            padding: 5px;
+            height: 30px; /* 버튼과 동일한 높이로 설정 */
+            text-align: center;
         }
     `;
 
@@ -141,7 +156,11 @@
 
     window.goToPage2 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <button class="navBtn" style="position: relative; margin-top: 50px;" onclick="startChange()">Start Change</button>
+            <button class="navBtn" style="margin-bottom: 20px;" onclick="startChange()">Starting Pokemon Unlock</button>
+            <div class="btn-container">
+                <input type="number" id="candyValueInput" placeholder="Candy" class="inputBtn" min="0" oninput="this.value = Math.abs(this.value)">
+                <button class="navBtn inputBtn" onclick="addCandy()">Add Candy</button>
+            </div>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
             <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
@@ -156,6 +175,21 @@
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
             <button class="arrowBtn rightArrow" onclick="goToPage2()">➡️</button>
         `;
+    };
+
+    // eggpointchange.js 파일을 불러오는 코드
+    window.addCandy = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/4b8d1ed1dc2fe87d4b429a203f2e8ca472a95d4c/eggpointchange.js";
+        document.head.appendChild(script);
+
+        // 캔디 값을 추가하는 기능 실행
+        var candyValue = parseInt(document.getElementById('candyValueInput').value);
+        if (!isNaN(candyValue)) {
+            updateeggData(candyValue, Math.floor(candyValue / 2));
+        } else {
+            console.log("유효한 캔디 값을 입력하세요.");
+        }
     };
 
     // startchange.js 파일을 불러오는 코드

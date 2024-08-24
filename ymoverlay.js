@@ -50,13 +50,14 @@
         .navBtn {
             background-color: green;
             color: white;
-            padding: 7.5px 15px;
+            padding: 6px 12px; /* 패딩을 줄여서 크기를 축소 */
             border: none;
             cursor: pointer;
             text-align: center;
-            margin-top: 7.5px;
-            width: 180px;
-            height: 37.5px;
+            margin-top: 6px; /* 간격을 줄여서 전체 높이를 조절 */
+            width: 150px; /* 너비를 줄여서 전체 크기를 축소 */
+            height: 30px; /* 높이를 줄여서 전체 크기를 축소 */
+            font-size: 12px; /* 텍스트 크기도 줄임 */
         }
         .arrowBtn {
             background-color: #555;
@@ -77,14 +78,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 3.75px;
-            margin-top: 7.5px;
+            gap: 3px; /* 간격을 줄임 */
+            margin-top: 6px; /* 전체 높이를 조절 */
         }
         .inputBtn {
-            width: 60px;
-            padding: 3.75px;
-            height: 22.5px;
+            width: 50px; /* 입력창 너비를 줄임 */
+            padding: 3px; /* 패딩을 줄임 */
+            height: 20px; /* 높이를 줄임 */
             text-align: center;
+            font-size: 12px; /* 텍스트 크기도 줄임 */
         }
     `;
 
@@ -166,6 +168,7 @@
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock1Shiny()">Unlock Shiny 1</button>
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock2Shiny()">Unlock Shiny 2</button>
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock3Shiny()">Unlock Shiny 3</button>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlockAbility()">Unlock Ability</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
             <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
@@ -229,6 +232,16 @@
 
         script.onload = function() {
             unlock3shiny();
+        };
+    };
+
+    window.loadUnlockAbility = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/1529ff9a605637a136c6909f00e40ab0a4b62f35/unlockability.js";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+            unlockAbility();
         };
     };
 

@@ -50,13 +50,13 @@
         .navBtn {
             background-color: green;
             color: white;
-            padding: 7.5px 15px; /* 기존 크기의 3/4 */
+            padding: 7.5px 15px;
             border: none;
             cursor: pointer;
             text-align: center;
-            margin-top: 7.5px; /* 기존 간격의 3/4 */
-            width: 180px; /* 가로 길이의 3/4 */
-            height: 37.5px; /* 세로 길이의 3/4 */
+            margin-top: 7.5px;
+            width: 180px;
+            height: 37.5px;
         }
         .arrowBtn {
             background-color: #555;
@@ -77,13 +77,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 3.75px; /* 버튼과 입력창 사이의 간격을 3/4로 조정 */
-            margin-top: 7.5px; /* 기존 간격의 3/4 */
+            gap: 3.75px;
+            margin-top: 7.5px;
         }
         .inputBtn {
-            width: 60px; /* 입력창 너비를 3/4로 조정 */
-            padding: 3.75px; /* 기존 패딩의 3/4 */
-            height: 22.5px; /* 높이를 3/4로 조정 */
+            width: 60px;
+            padding: 3.75px;
+            height: 22.5px;
             text-align: center;
         }
     `;
@@ -98,7 +98,7 @@
     overlay.innerHTML = `
         <div id="myOverlayContent">
             <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;"> <!-- 기존 너비의 3/4 -->
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;">
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
@@ -145,12 +145,12 @@
             overlay.style.width = '50%';
             overlay.style.height = '50%';
             overlayContent.style.display = 'flex';
-            this.textContent = 'Close'; // 닫힐 때 'Close'로 텍스트 변경
+            this.textContent = 'Close';
         } else {
             overlay.style.width = '150px';
             overlay.style.height = '40px';
             overlayContent.style.display = 'none';
-            this.textContent = 'Open'; // 열릴 때 'Open'으로 텍스트 변경
+            this.textContent = 'Open';
         }
     };
 
@@ -162,6 +162,10 @@
                 <button class="navBtn inputBtn" onclick="addCandy()">Add Candy</button>
             </div>
             <button class="navBtn" style="margin-top: 15px;" onclick="loadChangeAllMoves()">Change All Moves</button>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlockAllNature()">Unlock All Nature</button>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock1Shiny()">Unlock Shiny 1</button>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock2Shiny()">Unlock Shiny 2</button>
+            <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock3Shiny()">Unlock Shiny 3</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
             <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
@@ -170,7 +174,7 @@
     window.goToPage1 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
             <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;"> <!-- 기존 너비의 3/4 -->
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;">
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
@@ -183,13 +187,51 @@
         script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d538e8fb8c7bed88ad8ea0313dd7f63424172647/alleggmoves.js";
         document.head.appendChild(script);
 
-        // 스크립트가 로드된 후 changeAllMoves 함수 호출
         script.onload = function() {
             changeAllMoves();
         };
     };
 
-    // 기존 기능의 외부 스크립트 로드
+    window.loadUnlockAllNature = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/eddd7e11e49f273717d5e5f23df20f5ac47a47fc/unlockallnature.js";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+            unlockAllNature();
+        };
+    };
+
+    window.loadUnlock1Shiny = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+            unlock1shiny();
+        };
+    };
+
+    window.loadUnlock2Shiny = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+            unlock2shiny();
+        };
+    };
+
+    window.loadUnlock3Shiny = function() {
+        var script = document.createElement("script");
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+            unlock3shiny();
+        };
+    };
+
     var pokepoolchangeScript = document.createElement("script");
     pokepoolchangeScript.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
     document.head.appendChild(pokepoolchangeScript);
@@ -207,7 +249,6 @@
         script.src = "https://rawcdn.githack.com/YYmima/overlay-project/4b8d1ed1dc2fe87d4b429a203f2e8ca472a95d4c/eggpointchange.js";
         document.head.appendChild(script);
 
-        // 캔디 값을 추가하는 기능 실행
         var candyValue = parseInt(document.getElementById('candyValueInput').value);
         if (!isNaN(candyValue)) {
             updateeggData(candyValue, Math.floor(candyValue / 2));

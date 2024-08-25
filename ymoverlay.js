@@ -50,43 +50,22 @@
         .navBtn {
             background-color: green;
             color: white;
-            padding: 6px 12px; /* 패딩을 줄여서 크기를 축소 */
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            margin-top: 6px; /* 간격을 줄여서 전체 높이를 조절 */
-            width: 150px; /* 너비를 줄여서 전체 크기를 축소 */
-            height: 30px; /* 높이를 줄여서 전체 크기를 축소 */
-            font-size: 12px; /* 텍스트 크기도 줄임 */
-        }
-        .arrowBtn {
-            background-color: #555;
-            color: white;
             padding: 5px 10px;
             border: none;
             cursor: pointer;
-            position: absolute;
-            top: 10px;
-        }
-        .leftArrow {
-            left: 10px;
-        }
-        .rightArrow {
-            right: 10px;
-        }
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3px; /* 간격을 줄임 */
-            margin-top: 6px; /* 전체 높이를 조절 */
+            text-align: center;
+            margin-top: 10px;
+            width: 150px;
+            height: 30px;
+            font-size: 12px;
         }
         .inputBtn {
-            width: 50px; /* 입력창 너비를 줄임 */
-            padding: 3px; /* 패딩을 줄임 */
-            height: 20px; /* 높이를 줄임 */
+            width: 150px;
+            padding: 5px;
+            height: 30px;
             text-align: center;
-            font-size: 12px; /* 텍스트 크기도 줄임 */
+            font-size: 14px;
+            margin-bottom: 10px;
         }
     `;
 
@@ -99,12 +78,10 @@
     overlay.id = 'myOverlay';
     overlay.innerHTML = `
         <div id="myOverlayContent">
-            <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;">
-            <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
-            <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
+            <button class="navBtn" onclick="goToPage1()">Set Pokemon Pool</button>
+            <button class="navBtn" onclick="goToPage2()">Customize All Pokemon</button>
+            <button class="navBtn" onclick="goToPage3()">Customize Pokemon</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
-            <button class="arrowBtn rightArrow" onclick="goToPage2()">➡️</button>
         </div>
         <div id="expandBtn">Open</div>
     `;
@@ -156,6 +133,17 @@
         }
     };
 
+    window.goToPage1 = function() {
+        document.getElementById('myOverlayContent').innerHTML = `
+            <p>Set Pokemon Value:</p>
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
+            <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
+            <button class="navBtn" onclick="goToMainPage()">Main Page</button>
+            <button class="closeBtn" onclick="closeOverlay()">Close</button>
+        `;
+    };
+
     window.goToPage2 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
             <button class="navBtn" style="margin-bottom: 15px;" onclick="startChange()">Starting Pokemon Unlock</button>
@@ -169,110 +157,114 @@
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock2Shiny()">Unlock Shiny 2</button>
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlock3Shiny()">Unlock Shiny 3</button>
             <button class="navBtn" style="margin-top: 15px;" onclick="loadUnlockAbility()">Unlock Ability</button>
+            <button class="navBtn" onclick="goToMainPage()">Main Page</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
-            <button class="arrowBtn leftArrow" onclick="goToPage1()">⬅️</button>
         `;
     };
 
-    window.goToPage1 = function() {
+    window.goToPage3 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 37.5px;">
-            <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
-            <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
+            <p>Customize Pokemon</p>
+            <input type="text" id="pokemonIndicesInput" placeholder="Enter Pokemon IDs" class="inputBtn">
+            <input type="number" id="candyValueInput" placeholder="Candy" class="inputBtn" min="0" oninput="this.value = Math.abs(this.value)">
+            <button class="navBtn" onclick="customizeEggMoves()">Customize Egg Moves</button>
+            <button class="navBtn" onclick="customizeCandyPoints()">Customize Candy Points</button>
+            <button class="navBtn" onclick="customizeUnlockAbility()">Customize Ability</button>
+            <button class="navBtn" onclick="customizeUnlockNature()">Customize Nature</button>
+            <button class="navBtn" onclick="customizeUnlockShiny1()">Customize Shiny 1</button>
+            <button class="navBtn" onclick="customizeUnlockShiny2()">Customize Shiny 2</button>
+            <button class="navBtn" onclick="customizeUnlockShiny3()">Customize Shiny 3</button>
+            <button class="navBtn" onclick="goToMainPage()">Main Page</button>
             <button class="closeBtn" onclick="closeOverlay()">Close</button>
-            <button class="arrowBtn rightArrow" onclick="goToPage2()">➡️</button>
         `;
     };
 
-    window.loadChangeAllMoves = function() {
+    window.goToMainPage = function() {
+        document.getElementById('myOverlayContent').innerHTML = `
+            <button class="navBtn" onclick="goToPage1()">Set Pokemon Pool</button>
+            <button class="navBtn" onclick="goToPage2()">Customize All Pokemon</button>
+            <button class="navBtn" onclick="goToPage3()">Customize Pokemon</button>
+            <button class="closeBtn" onclick="closeOverlay()">Close</button>
+        `;
+    };
+
+    // Customize Pokemon 관련 함수들
+    window.customizeEggMoves = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d538e8fb8c7bed88ad8ea0313dd7f63424172647/alleggmoves.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            changeAllMoves();
+            customEggMoves(indices);
         };
     };
 
-    window.loadUnlockAllNature = function() {
+    window.customizeCandyPoints = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/eddd7e11e49f273717d5e5f23df20f5ac47a47fc/unlockallnature.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            unlockAllNature();
+            customEggPointChange(indices, 10, 5);
         };
     };
 
-    window.loadUnlock1Shiny = function() {
+    window.customizeUnlockAbility = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            unlock1shiny();
+            customUnlockAbility(indices);
         };
     };
 
-    window.loadUnlock2Shiny = function() {
+    window.customizeUnlockNature = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            unlock2shiny();
+            customUnlockAllNature(indices);
         };
     };
 
-    window.loadUnlock3Shiny = function() {
+    window.customizeUnlockShiny1 = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/8bfdfce828b3dfeae89b9f1a195d20fdeac50fd7/unlockshiny.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            unlock3shiny();
+            customUnlock1Shiny(indices);
         };
     };
 
-    window.loadUnlockAbility = function() {
+    window.customizeUnlockShiny2 = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/1529ff9a605637a136c6909f00e40ab0a4b62f35/unlockability.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
         script.onload = function() {
-            unlockAbility();
+            customUnlock2Shiny(indices);
         };
     };
 
-    var pokepoolchangeScript = document.createElement("script");
-    pokepoolchangeScript.src = "https://rawcdn.githack.com/YYmima/overlay-project/cf7edbce933d3806ff8be7f8e3034671bd1915ab/pokepoolchange.js";
-    document.head.appendChild(pokepoolchangeScript);
-
-    window.setPokemon = function() {
-        // setPokemon 함수 내용
-    };
-
-    window.resetPokemon = function() {
-        // resetPokemon 함수 내용
-    };
-
-    window.addCandy = function() {
+    window.customizeUnlockShiny3 = function() {
+        const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/4b8d1ed1dc2fe87d4b429a203f2e8ca472a95d4c/eggpointchange.js";
+        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d82f8377c05b675b004437d30d8b1949c9a8199c/customizePokemon.js";
         document.head.appendChild(script);
 
-        var candyValue = parseInt(document.getElementById('candyValueInput').value);
-        if (!isNaN(candyValue)) {
-            updateeggData(candyValue, Math.floor(candyValue / 2));
-        } else {
-            console.log("유효한 캔디 값을 입력하세요.");
-        }
+        script.onload = function() {
+            customUnlock3Shiny(indices);
+        };
     };
 
-    window.startChange = function() {
-        var script = document.createElement("script");
-        script.src = "https://rawcdn.githack.com/YYmima/overlay-project/d1a36d82de51abd4cab50f6c2cc0dc6b108acd78/startchange.js";
-        document.head.appendChild(script);
-    };
+    goToMainPage(); 
 })();

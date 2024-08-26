@@ -1,4 +1,4 @@
-(function() {
+(function () {
     // 4번째 페이지 스타일 정의
     var overlayPageStyle = `
         #page4Content {
@@ -52,9 +52,6 @@
                 <button class="actionBtn" onclick="setPokeball4FromInput()">Set Pokeball 4</button>
                 
                 <button class="actionBtn" onclick="goToMainPage()">Back to Main Page</button>
-                <button class="actionBtn" onclick="goToPage1()">Back to Page 1</button>
-                <button class="actionBtn" onclick="goToPage2()">Back to Page 2</button>
-                <button class="actionBtn" onclick="goToPage3()">Back to Page 3</button>
                 <button class="actionBtn" onclick="closeOverlay()">Close</button>
             </div>
         `;
@@ -64,7 +61,7 @@
     window.setMoneyFromInput = function() {
         var amount = document.getElementById('moneyInput').value;
         if (amount) {
-            setMoney(Number(amount)); // setMoney 함수는 ymoverlay.js에 정의되어 있다고 가정
+            setMoney(Number(amount)); // setMoney 함수는 setmoneyandball.js에 정의되어 있다고 가정
         }
     };
 
@@ -108,25 +105,6 @@
     window.goToMainPage = function() {
         if (typeof goToMainPage === 'function') {
             goToMainPage();
-        }
-    };
-
-    // 페이지 전환 기능 구현
-    window.goToPage1 = function() {
-        if (typeof goToPage1 === 'function') {
-            goToPage1();
-        }
-    };
-
-    window.goToPage2 = function() {
-        if (typeof goToPage2 === 'function') {
-            goToPage2();
-        }
-    };
-
-    window.goToPage3 = function() {
-        if (typeof goToPage3 === 'function') {
-            goToPage3();
         }
     };
 

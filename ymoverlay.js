@@ -4,8 +4,8 @@
             position: fixed;
             top: 10px;
             left: 10px;
-            width: 150px;
-            height: 40px;
+            width: 40px;
+            height: 150px;
             background-color: rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
@@ -34,38 +34,50 @@
         .closeBtn {
             background-color: red;
             color: white;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
+            font-size: 12px;
+            border-radius: 4px;
         }
         #expandBtn {
             width: 100%;
             background-color: #007bff;
             color: white;
-            padding: 5px 0;
+            padding: 4px 0;
             text-align: center;
             cursor: pointer;
+            font-size: 12px;
+            border-radius: 4px;
         }
         .navBtn {
             background-color: green;
             color: white;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border: none;
             cursor: pointer;
             text-align: center;
-            margin-top: 10px;
-            width: 150px;
+            margin-top: 8px;
+            width: 120px;
             height: 30px;
             font-size: 12px;
+            border-radius: 4px;
         }
         .inputBtn {
-            width: 150px;
-            padding: 5px;
-            height: 30px;
+            width: 120px;
+            padding: 4px;
+            height: 25px;
             text-align: center;
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .labelText {
+            font-size: 12px;
+            margin-bottom: 4px;
+            color: #333;
         }
     `;
 
@@ -121,13 +133,13 @@
         var overlay = document.getElementById('myOverlay');
         var overlayContent = document.getElementById('myOverlayContent');
         if (overlayContent.style.display === 'none') {
-            overlay.style.width = '50%';
-            overlay.style.height = '50%';
+            overlay.style.width = '40%';
+            overlay.style.height = '70%';
             overlayContent.style.display = 'flex';
             this.textContent = 'Close';
         } else {
-            overlay.style.width = '150px';
-            overlay.style.height = '40px';
+            overlay.style.width = '40px';
+            overlay.style.height = '150px';
             overlayContent.style.display = 'none';
             this.textContent = 'Open';
         }
@@ -135,8 +147,8 @@
 
     window.goToPage1 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
-            <p>Set Pokemon Value:</p>
-            <input type="number" id="pokemonValueInput" placeholder="Enter value" style="width: 50px;">
+            <span class="labelText">Set Pokemon Pool Value</span>
+            <input type="number" id="pokemonValueInput" placeholder="Enter value" class="inputBtn" min="0" oninput="this.value = Math.abs(this.value)">
             <button class="navBtn" onclick="setPokemon()">Set Pokemon Pool</button>
             <button class="navBtn" onclick="resetPokemon()">Reset Pokemon Pool</button>
             <button class="navBtn" onclick="goToMainPage()">Main Page</button>
@@ -165,8 +177,9 @@
     window.goToPage3 = function() {
         document.getElementById('myOverlayContent').innerHTML = `
             <p>Customize Pokemon</p>
-            <input type="text" id="pokemonIndicesInput" placeholder="Enter Pokemon IDs" class="inputBtn">
+            <input type="number" id="pokemonIndicesInput" placeholder="Enter Pokemon IDs" class="inputBtn" min="1">
             <input type="number" id="candyValueInput" placeholder="Candy" class="inputBtn" min="0" oninput="this.value = Math.abs(this.value)">
+            <button class="navBtn" onclick="validateAndCustomize()">Apply</button>
             <button class="navBtn" onclick="customizeEggMoves()">Customize Egg Moves</button>
             <button class="navBtn" onclick="customizeCandyPoints()">Customize Candy Points</button>
             <button class="navBtn" onclick="customizeUnlockAbility()">Customize Ability</button>
@@ -179,16 +192,61 @@
         `;
     };
 
-    window.goToMainPage = function() {
-        document.getElementById('myOverlayContent').innerHTML = `
-            <button class="navBtn" onclick="goToPage1()">Set Pokemon Pool</button>
-            <button class="navBtn" onclick="goToPage2()">Customize All Pokemon</button>
-            <button class="navBtn" onclick="goToPage3()">Customize Pokemon</button>
-            <button class="closeBtn" onclick="closeOverlay()">Close</button>
-        `;
+    window.validateAndCustomize = function() {
+        const indicesInput = document.getElementById('pokemonIndicesInput').value;
+        const candyValue = document.getElementById('candyValueInput').value;
+
+        if (indicesInput === '' || candyValue === '') {
+            alert("Please enter both Pokemon IDs and candy amount.");
+            return;
+        }
+
+        const indices = indicesInput.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+
+        if (indices.length === 0) {
+            alert("Please enter valid Pokemon IDs.");
+            return;
+        }
+
+        const canvasPool = Phaser.Display.Canvas.CanvasPool.pool[0];
+        const parent = canvasPool.parent;
+        const game = parent.game;
+        const scene = game.scene.scenes[0];
+
+        if (!scene) {
+            alert("Game scene not found.");
+            return;
+        }
+
+        scene.gameData = scene.gameData || {};
+        scene.gameData.dexData = scene.gameData.dexData || {};
+        scene.gameData.starterData = scene.gameData.starterData || {};
+
+        let validIndices = [];
+        let invalidIndices = [];
+
+        indices.forEach(index => {
+            if (scene.gameData.dexData[index]) {
+                validIndices.push(index);
+            } else {
+                invalidIndices.push(index);
+            }
+        });
+
+        if (invalidIndices.length > 0) {
+            alert("The following Pokemon IDs are invalid: " + invalidIndices.join(', '));
+        }
+
+        if (validIndices.length > 0) {
+            validIndices.forEach(index => {
+                scene.gameData.starterData[index] = scene.gameData.starterData[index] || {};
+                scene.gameData.starterData[index].candyCount = parseInt(candyValue);
+            });
+            alert("Selected Pokemon have been updated.");
+        }
     };
 
-    // Customize Pokemon 관련 함수들
+    // 외부 스크립트 로드 및 관련 함수 호출
     window.customizeEggMoves = function() {
         const indices = document.getElementById('pokemonIndicesInput').value.split(',').map(Number);
         var script = document.createElement("script");
